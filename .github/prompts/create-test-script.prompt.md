@@ -1,7 +1,7 @@
 ---
-agent: ask
+agent: agent
 model: gpt-5
-tools: ["codebase", "editFiles", "runCommands"]
+tools: ["search/codebase", "edit/editFiles", "execute/runInTerminal"]
 name: create-test-script
 description: Create or extend a Hugo-based output test script from a structured test request.
 argument-hint: |
