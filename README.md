@@ -57,6 +57,55 @@ After installation, use these guides to configure your site:
 * [Customisation](https://ananke-documentation.netlify.app/customisation/)
 * [Troubleshooting](https://ananke-documentation.netlify.app/troubleshooting/)
 
+## Basic configuration examples
+
+A post can define common metadata in its front matter. The default archetype already includes `date`, `tags`, `featured_image`, and `description`; add `author` and `categories` when you need them:
+
+```yaml
+---
+title: "Post title example"
+author: "Jane Example"
+date: 2026-05-15T00:00:00+07:00
+categories:
+  - News
+  - Updates
+tags:
+  - hugo
+  - ananke
+featured_image: "/images/post-image.jpg"
+description: "A short description for listings and metadata."
+---
+```
+
+Use `featured_image` for the smaller image shown with post teasers and previews. Store the image in your site, for example under `static/images/`, and reference it from the site root as `/images/post-image.jpg`.
+
+Add header navigation through Hugo's menu configuration:
+
+```toml
+[[menus.main]]
+name = "About"
+pageRef = "/about"
+weight = 10
+
+[[menus.main]]
+name = "Authors"
+pageRef = "/authors"
+weight = 20
+```
+
+Add footer follow links, including email, through the social follow configuration. The available network definitions live in `config/_default/params.toml`.
+
+```toml
+[params.ananke.social.follow]
+networks = ["email", "github"]
+
+[params.ananke.social.github]
+username = "example"
+
+[params.ananke.social.email]
+username = "hello@example.com"
+```
+
 ## Support and Contributions
 
 * Bug reports: [GitHub Issues](https://github.com/gohugo-ananke/ananke/issues)
