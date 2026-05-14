@@ -5,7 +5,7 @@ Ananke is a flexible, production-ready starter theme for [Hugo](https://gohugo.i
 ![Ananke screenshot](images/screenshot.png)
 
 * Demo: [ananke-theme.netlify.app](https://ananke-theme.netlify.app/)
-* Documentation: [docs directory](https://github.com/gohugo-ananke/ananke/tree/main/docs)
+* Documentation: [ananke-documentation.netlify.app](https://ananke-documentation.netlify.app/)
 * Changelog: [CHANGELOG.md](CHANGELOG.md)
 
 > [!IMPORTANT]
@@ -43,8 +43,8 @@ Ananke is a flexible, production-ready starter theme for [Hugo](https://gohugo.i
 
 Ananke supports both installation methods:
 
-* [Install as Hugo Module (recommended)](docs/en/installation/gohugo-module.md)
-* [Install as Git Submodule](docs/en/installation/git-submodule.md)
+* [Install as Hugo Module (recommended)](https://ananke-documentation.netlify.app/installation/gohugo-module/)
+* [Install as Git Submodule](https://ananke-documentation.netlify.app/installation/git-submodule/)
 
 If you are new to Hugo, see Hugo's official quick start: [gohugo.io/getting-started/quick-start](https://gohugo.io/getting-started/quick-start/).
 
@@ -52,10 +52,10 @@ If you are new to Hugo, see Hugo's official quick start: [gohugo.io/getting-star
 
 After installation, use these guides to configure your site:
 
-* [Getting Started](docs/en/getting-started.md)
-* [Configuration](docs/en/configuration/_index.md)
-* [Customisation](docs/en/customisation/_index.md)
-* [Troubleshooting](docs/en/troubleshooting.md)
+* [Getting Started](https://ananke-documentation.netlify.app/getting-started/)
+* [Configuration](https://ananke-documentation.netlify.app/configuration/)
+* [Customisation](https://ananke-documentation.netlify.app/customisation/)
+* [Troubleshooting](https://ananke-documentation.netlify.app/troubleshooting/)
 
 ## Support and Contributions
 
