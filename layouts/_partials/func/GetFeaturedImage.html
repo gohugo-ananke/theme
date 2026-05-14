@@ -5,11 +5,14 @@
 
 	If a featured_image was set in the page's front matter, then that will be used.
 
-	If not set, this will search page resources to find an image that contains the word
-	"cover", and if found, returns the path to that resource.
+	If not set, this will use the first image from the page's images array.
 
-	If no featured_image was set, and there's no "cover" image in page resources, then
-	this partial returns an empty string (which evaluates to false).
+	If neither featured_image nor images was set, this will search page resources to
+	find an image that contains the word "cover", and if found, returns the path to
+	that resource.
+
+	If no featured image was set, and there's no "cover" image in page resources,
+	then this partial returns an empty string (which evaluates to false).
 
 	@return RelPermalink to featured image, or an empty string if not found.
 
@@ -18,8 +21,25 @@
 {{/* Declare a new string variable, $linkToCover */}}
 {{ $linkToCover := "" }}
 {{ $matches := "feature,cover" }}
+{{ $featuredImage := "" }}
 {{/* Use the value from front matter if present */}}
 {{ with .Params.featured_image }}
+  {{ $featuredImage = . }}
+{{ else }}
+  {{ with .Params.images }}
+    {{ if reflect.IsSlice . }}
+      {{ if gt (len .) 0 }}
+        {{ with index . 0 }}
+          {{ $featuredImage = . }}
+        {{ end }}
+      {{ end }}
+    {{ else }}
+      {{ $featuredImage = . }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{ with $featuredImage }}
   {{/* This is the default case, the image lives in the static directory.
     In which case we'll use the static dir */}}
   {{ $linkToCover = strings.Trim . "/" | urls.AbsURL }}
