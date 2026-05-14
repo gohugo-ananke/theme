@@ -96,11 +96,7 @@ This should be used sparingly and only when you have a good reason to bypass che
 
 ## Documentation Contributions
 
-Documentation lives in multiple places:
-
-* Main project overview: `README.md`
-* Contributor docs: `CONTRIBUTING.md`
-* Theme docs content: `docs/`
+The theme documentation lives in a separate repository at [gohugo-ananke/documentation](https://github.com/gohugo-ananke/documentation).
 
 Please keep links relative where possible and remove stale references when updating pages.
 
@@ -155,7 +151,7 @@ AI is a tool. It can speed things up, help explore options, and reduce friction.
 
 ## Attribution
 
-If you want to receive attribution for your contribution please follow the [contribution guidelines](https://allcontributors.org/en/bot/usage/) to add yourself to the list of contributors [in the Ananke theme documentation](https://github.com/davidsneighbour/gohugo-theme-ananke-documentation). A permanently open issue to add your contribution can be found [at the documentation repository](https://github.com/davidsneighbour/gohugo-theme-ananke-documentation/issues/1). Read the initial message to understand how to add yourself to the list of contributors.
+If you want to receive attribution for your contribution please follow the [contribution guidelines](https://allcontributors.org/en/bot/usage/) to add yourself to the list of contributors [in the Ananke theme documentation](https://github.com/gohugo-ananke/documentation/). A permanently open issue to add your contribution can be found [at the documentation repository](https://github.com/gohugo-ananke/documentation/issues/1). Read the initial message to understand how to add yourself to the list of contributors.
 
 ## License
 
