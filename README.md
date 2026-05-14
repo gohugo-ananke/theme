@@ -57,6 +57,44 @@ After installation, use these guides to configure your site:
 * [Customisation](https://ananke-documentation.netlify.app/customisation/)
 * [Troubleshooting](https://ananke-documentation.netlify.app/troubleshooting/)
 
+## Custom outputs
+
+Ananke does not require theme changes for Hugo custom outputs. Define the output format in your site configuration and add the matching layout file to your site. Hugo resolves project layouts before theme layouts, so the custom output can live outside the theme.
+
+For example, this configuration adds a `SearchIndex` JSON output for the home page:
+
+```toml
+[mediaTypes."application/json"]
+suffixes = ["json"]
+
+[outputFormats.SearchIndex]
+mediaType = "application/json"
+baseName = "index"
+isPlainText = true
+notAlternative = true
+
+[outputs]
+home = ["HTML", "RSS", "SearchIndex"]
+```
+
+Then add a matching layout in your site at `layouts/index.searchindex.json`:
+
+```go-html-template
+{{- $pages := where site.RegularPages "Type" "in" site.Params.mainSections -}}
+[
+{{- range $index, $page := $pages }}
+  {{- if $index }},{{ end }}
+  {
+    "title": {{ $page.Title | jsonify }},
+    "permalink": {{ $page.RelPermalink | jsonify }},
+    "summary": {{ $page.Summary | plainify | jsonify }}
+  }
+{{- end }}
+]
+```
+
+This produces `/index.json` while keeping Ananke's default HTML and RSS output intact.
+
 ## Support and Contributions
 
 * Bug reports: [GitHub Issues](https://github.com/gohugo-ananke/ananke/issues)
