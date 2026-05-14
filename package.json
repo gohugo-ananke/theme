@@ -25,18 +25,18 @@
 		"hugo-module"
 	],
 	"dependencies": {
-		"cssnano": "7.1.7",
-		"postcss": "8.5.13",
-		"postcss-preset-env": "11.2.1",
+		"cssnano": "8.0.1",
+		"postcss": "8.5.14",
+		"postcss-preset-env": "11.3.0",
 		"tachyons": "4.12.0"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.4.13",
+		"@biomejs/biome": "2.4.15",
 		"@github/markdownlint-github": "0.8.0",
 		"@release-it/conventional-changelog": "11.0.0",
-		"@types/node": "25.6.0",
+		"@types/node": "25.8.0",
 		"dotenv": "17.4.2",
-		"lint-staged": "16.4.0",
+		"lint-staged": "17.0.4",
 		"lockfile-lint": "5.0.0",
 		"markdownlint": "0.40.0",
 		"markdownlint-cli2": "0.22.1",
