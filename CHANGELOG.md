@@ -1,5 +1,41 @@
 # Changelog
 
+## [2.13.1](https://github.com/gohugo-ananke/ananke/compare/v2.13.0...v2.13.1) (2026-05-15)
+
+### Build
+
+* **deps-dev:** bump @release-it/conventional-changelog from 10.0.6 to 11.0.0 ([#953](https://github.com/gohugo-ananke/ananke/issues/953)) ([c3ada3f](https://github.com/gohugo-ananke/ananke/commit/c3ada3fa46e89a6f565bdb6fe72c733da2ed3ec0))
+* **deps-dev:** bump release-it from 19.2.4 to 20.0.1 ([#954](https://github.com/gohugo-ananke/ananke/issues/954)) ([50a4ce9](https://github.com/gohugo-ananke/ananke/commit/50a4ce99140cfacfb00ebe5f693a802f5f756254))
+* **deps:** bump actions/checkout from 4 to 6 ([#945](https://github.com/gohugo-ananke/ananke/issues/945)) ([5d40ea3](https://github.com/gohugo-ananke/ananke/commit/5d40ea3fe961f99dbc45bb461acfd13a00b65af8))
+* **deps:** bump actions/setup-node from 4 to 6 ([#946](https://github.com/gohugo-ananke/ananke/issues/946)) ([dc0a822](https://github.com/gohugo-ananke/ananke/commit/dc0a8223b3dd020543ece8d0013ef8bcf40a515b))
+* **deps:** bump postcss from 8.5.10 to 8.5.13 ([#955](https://github.com/gohugo-ananke/ananke/issues/955)) ([ed5f168](https://github.com/gohugo-ananke/ananke/commit/ed5f168c0f42f98386b80a4c48056ee22de79446))
+* **deps:** bump the npm_and_yarn group across 1 directory with 2 updates ([#956](https://github.com/gohugo-ananke/ananke/issues/956)) ([09a1dea](https://github.com/gohugo-ananke/ananke/commit/09a1dea357e39ea352fa75d80c621d9cbc17b582))
+* **deps:** update dependencies ([9347892](https://github.com/gohugo-ananke/ananke/commit/9347892f1d62c7acd1bac3b8dce76d10febfe7ac))
+* **fix:** always use latest node version ([17401b9](https://github.com/gohugo-ananke/ananke/commit/17401b98ee421fbb6b67709d3a994a6026d5700d))
+* **fix:** dependabot must pull agains development branch ([036acd7](https://github.com/gohugo-ananke/ananke/commit/036acd7f24f591002f31786686255a1bf93e9d91))
+* rework release configuration ([2b6c1fe](https://github.com/gohugo-ananke/ananke/commit/2b6c1fe20cd829bf5f95637d60d68ebe6058f542))
+
+### Chores
+
+* set up branch protection rules and workflows ([c0c179c](https://github.com/gohugo-ananke/ananke/commit/c0c179cf95878ef908d70396bc8a724f7a56c8a0))
+* update package.json ([aaa7016](https://github.com/gohugo-ananke/ananke/commit/aaa701650f6f8d298811b178b1e8988526dbc38b))
+
+### CI
+
+* **fix:** allow quickstart workflow to run on request ([a1dd0f6](https://github.com/gohugo-ananke/ananke/commit/a1dd0f637c8188b91030ccffe1754489ac586234))
+* **fix:** lint only staged markdown files ([60eb57d](https://github.com/gohugo-ananke/ananke/commit/60eb57dfcd86615f58f2db50e843e9760614760d))
+* update branch setup/rules and CONTRIBUTING.md ([c336f54](https://github.com/gohugo-ananke/ananke/commit/c336f54315f4d3a8f80c2b8c82a0055037e7bf76))
+
+### Documentation
+
+* add AI contributor guide to CONTRIBUTING.md ([a819d1e](https://github.com/gohugo-ananke/ananke/commit/a819d1ece3d6819dd8bde48688cff345ce65f5cd))
+* **ai:** add DESIGN.md with initial setup ([d262f3a](https://github.com/gohugo-ananke/ananke/commit/d262f3a379bc0680717f6c0a98f532d189324f88))
+* **ai:** add issue analysis prompt ([437d60c](https://github.com/gohugo-ananke/ananke/commit/437d60c6d68f009db08d6b73c774710d6164ada2))
+* **ai:** fix test script prompt ([d569659](https://github.com/gohugo-ananke/ananke/commit/d56965905f35c7279eab961ed37e326dec36fd09))
+* **ai:** update issue analysis prompt with documentation instructions ([c5c37be](https://github.com/gohugo-ananke/ananke/commit/c5c37bee8b5fb3c1272cdee9fcbc8c36468ee513))
+* **fix:** update links to documentation repository ([feb14b2](https://github.com/gohugo-ananke/ananke/commit/feb14b2cfff4ae1caed4e7d6fc1e529731ab834f))
+* **readme:** link to deployed documentation ([#959](https://github.com/gohugo-ananke/ananke/issues/959)) ([f63ea20](https://github.com/gohugo-ananke/ananke/commit/f63ea2005a5bad0fbc733a641fea5c20380c32fa))
+
 ## [2.13.0](https://github.com/gohugo-ananke/ananke/compare/v2.13.0-prerelease.2...v2.13.0) (2026-04-24)
 
 ## [2.13.0-prerelease.2](https://github.com/gohugo-ananke/ananke/compare/v2.13.0-prerelease.1...v2.13.0-prerelease.2) (2026-04-24)
