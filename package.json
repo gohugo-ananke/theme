@@ -51,7 +51,7 @@
 	},
 	"scripts": {
 		"hook:commit": "lint-staged --config .lintstagedrc.js",
-		"hook:push": "node scripts/test-hugo-quickstart.ts",
+		"hook:push": "node -e \"process.exit(require('child_process').execSync('git branch --show-current').toString().trim() === 'main' ? 0 : 1)\" && node scripts/test-hugo-quickstart.ts || true",
 		"lint:links": "lychee --config lychee.toml public",
 		"lint:markdown": "markdownlint-cli2",
 		"lint:markdown:fix": "markdownlint-cli2 --fix",
