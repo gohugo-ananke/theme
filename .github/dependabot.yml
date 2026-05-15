@@ -53,10 +53,7 @@ updates:
       time: "18:00"
       timezone: Asia/Bangkok
     cooldown:
-      default-days: 14
-      semver-major-days: 14
-      semver-minor-days: 7
-      semver-patch-days: 4
+      default-days: 7
     assignees:
       - davidsneighbour
     target-branch: maintenance
