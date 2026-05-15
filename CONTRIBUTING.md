@@ -6,6 +6,9 @@ Thanks for helping improve Ananke. This document describes the current contribut
 * [Release Process](#release-process)
 * [Before You Start](#before-you-start)
 * [Reporting Bugs and Requesting Features](#reporting-bugs-and-requesting-features)
+* [Branch Strategy](#branch-strategy)
+  * [Long-lived branches](#long-lived-branches)
+  * [Branch naming](#branch-naming)
 * [Pull Request Workflow](#pull-request-workflow)
 * [Circumventing Git Hooks](#circumventing-git-hooks)
 * [Documentation Contributions](#documentation-contributions)
@@ -37,33 +40,74 @@ For details, see [RELEASES.md](./RELEASES.md).
 1. Use a compatible Hugo version (see [`config/_default/module.toml`](https://github.com/gohugo-ananke/ananke/blob/main/config/_default/module.toml) for the current state).
 2. Install dependencies:
 
-   ```bash
-   npm install
-   ```
+ ```bash
+ npm install
+ ```
 
-3. Run a local preview via `npm run` instead of just calling `hugo server`:
+1. Run a local preview via `npm run` instead of just calling `hugo server`:
 
-   ```bash
-   npm run server
-   ```
+ ```bash
+ npm run server
+ ```
 
-   This runs the documentation site from `site/` using contents from `docs/` with local configuration.
+ This runs the documentation site from `site/` using contents from `docs/` with local configuration.
 
-4. Follow the coding style and format commit messages as described in the conventional commits specification (for example: `docs: add troubleshooting section` or `fix: correct hero image path`).
+1. Follow the coding style and format commit messages as described in the conventional commits specification (for example: `docs: add troubleshooting section` or `fix: correct hero image path`).
 
-5. Make sure to install git hooks for linting and testing before you push changes:
+2. Make sure to install git hooks for linting and testing before you push changes:
 
-   ```bash
-   npm run prepare
-   ```
+ ```bash
+ npm run prepare
+ ```
 
-   This command is run automatically after `npm install` but you can run it manually to set up hooks in an existing clone or update changed hooks. It uses `simple-git-hooks` to install a commit hook that runs `lint-staged` for markdown files, which in turn runs linting tasks on staged files.
+ This command is run automatically after `npm install` but you can run it manually to set up hooks in an existing clone or update changed hooks. It uses `simple-git-hooks` to install a commit hook that runs `lint-staged` for markdown files, which in turn runs linting tasks on staged files.
 
 ## Reporting Bugs and Requesting Features
 
 * Open bugs in [GitHub Issues](https://github.com/gohugo-ananke/ananke/issues).
 * Start feature or idea discussions in [GitHub Discussions](https://github.com/gohugo-ananke/ananke/discussions).
 * Include clear reproduction steps, expected behaviour, actual behaviour, and versions (`hugo version`, OS, browser if relevant).
+
+## Branch Strategy
+
+```mermaid
+flowchart LR
+ feature["feature/*, fix/*, docs/*, refactor/*"] --> development
+ development --> staging
+ maintenance --> staging
+ staging --> main
+ main --> staging
+ staging --> development
+```
+
+This repository uses a linear, rebase-based branch model. Long-lived branches MUST stay connected to `main`, and merge commits MUST NOT be introduced.
+
+### Long-lived branches
+
+| Branch  | Purpose  | Release role | Write policy | Merge  |
+| --- | --- | --- | --- | --- |
+| `main`  | Stable source of truth | releases | Protected. Only receives reviewed PRs from `staging` or `maintenance`. | Rebase |
+| `staging` | Pre-release integration | pre-releases | Protected. Only receives reviewed PRs from `development`.  | Rebase |
+| `development` | Active development | none | Feature, fix, chore, and documentation PRs target this branch. | Squash |
+| `maintenance` | Dependency maintenance  | none | Maintainer-only branch for dependency version updates. | Rebase |
+
+### Branch naming
+
+Use short-lived branches for regular work:
+
+* `feat/<topic>`
+* `fix/<topic>`
+* `docs/<topic>`
+* `chore/<topic>`
+* `refactor/<topic>`
+
+Dependency update branches MUST target `maintenance` unless the change is part of an intentional feature branch and does not touch lock files.
+
+After a successful rebase between those branches, push with lease:
+
+```bash
+git push --force-with-lease
+```
 
 ## Pull Request Workflow
 
@@ -72,16 +116,17 @@ For details, see [RELEASES.md](./RELEASES.md).
 3. Update docs for all user-facing changes.
 4. Run quality checks locally:
 
-   ```bash
-   npm run lint:markdown
-   ```
+ ```bash
+ npm run lint:markdown
+ ```
 
-5. If your change affects behaviour, validate with Hugo locally (for example `hugo` or `hugo server` in the relevant project).
-6. Open a pull request with:
-   * a clear summary,
-   * motivation/context,
-   * screenshots when UI/visual output changes,
-   * linked issues (for example: `Fixes #123`).
+1. If your change affects behaviour, validate with Hugo locally (for example `hugo` or `hugo server` in the relevant project).
+2. Open a pull request with:
+
+* a clear summary,
+* motivation/context,
+* screenshots when UI/visual output changes,
+* linked issues (for example: `Fixes #123`).
 
 ## Circumventing Git Hooks
 

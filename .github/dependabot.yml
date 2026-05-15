@@ -10,11 +10,14 @@ updates:
       day: friday
       time: "18:00"
       timezone: Asia/Bangkok
+    cooldown:
+      default-days: 14
+      semver-major-days: 14
+      semver-minor-days: 7
+      semver-patch-days: 4
     assignees:
       - davidsneighbour
-    reviewers:
-      - davidsneighbour
-    target-branch: development
+    target-branch: maintenance
     open-pull-requests-limit: 999
     pull-request-branch-name:
       separator: /
@@ -28,11 +31,14 @@ updates:
       day: friday
       time: "18:00"
       timezone: Asia/Bangkok
+    cooldown:
+      default-days: 14
+      semver-major-days: 14
+      semver-minor-days: 7
+      semver-patch-days: 4
     assignees:
       - davidsneighbour
-    reviewers:
-      - davidsneighbour
-    target-branch: development
+    target-branch: maintenance
     open-pull-requests-limit: 999
     pull-request-branch-name:
       separator: /
@@ -46,11 +52,14 @@ updates:
       day: friday
       time: "18:00"
       timezone: Asia/Bangkok
+    cooldown:
+      default-days: 14
+      semver-major-days: 14
+      semver-minor-days: 7
+      semver-patch-days: 4
     assignees:
       - davidsneighbour
-    reviewers:
-      - davidsneighbour
-    target-branch: development
+    target-branch: maintenance
     open-pull-requests-limit: 999
     pull-request-branch-name:
       separator: /

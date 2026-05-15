@@ -27,5 +27,6 @@
 		"theme.toml": "go.mod, go.sum",
 		"README.md": "CHANGELOG.md, LICENSE.md, CONTRIBUTING.md, RELEASES.md, DESIGN.md"
 	},
-	"window.autoDetectColorScheme": false
+	"window.autoDetectColorScheme": false,
+	"markdown.extension.tableFormatter.enabled": false
 }

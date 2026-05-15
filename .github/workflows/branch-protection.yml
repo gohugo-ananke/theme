@@ -1,0 +1,73 @@
+name: Validate pull request rules
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  validate-main-source-branch:
+    name: Require staging or maintenance as source branch for main
+    runs-on: ubuntu-latest
+    if: github.base_ref == 'main'
+
+    steps:
+      - name: Validate source branch
+        shell: bash
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+        run: |
+          set -euo pipefail
+
+          if [ "${HEAD_REF}" != "staging" ] && [ "${HEAD_REF}" != "maintenance" ]; then
+            echo "::error::Pull requests into main must come from staging or maintenance. Current source branch: ${HEAD_REF}"
+            exit 1
+          fi
+
+  validate-staging-source-branch:
+    name: Require development or maintenance as source branch for staging
+    runs-on: ubuntu-latest
+    if: github.base_ref == 'staging'
+
+    steps:
+      - name: Validate source branch
+        shell: bash
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+        run: |
+          set -euo pipefail
+
+          if [ "${HEAD_REF}" != "development" ] && [ "${HEAD_REF}" != "maintenance" ]; then
+            echo "::error::Pull requests into staging must come from development or maintenance. Current source branch: ${HEAD_REF}"
+            exit 1
+          fi
+
+  protect-package-lock:
+    name: Block package-lock.json outside maintenance
+    runs-on: ubuntu-latest
+    if: github.base_ref != 'maintenance'
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Fail if package-lock.json changed outside maintenance
+        shell: bash
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          set -euo pipefail
+
+          changed_files=$(git diff --name-only "${BASE_SHA}...${HEAD_SHA}")
+
+          if echo "${changed_files}" | grep -Fxq "package-lock.json"; then
+            echo "::error file=package-lock.json::package-lock.json may only be changed in PRs targeting maintenance. Current target branch: ${BASE_REF}"
+            exit 1
+          fi
