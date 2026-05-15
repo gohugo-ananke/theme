@@ -33,7 +33,7 @@ Thanks for helping improve Ananke. This document describes the current contribut
 
 The project follows a structured release workflow based on conventional commits, staging branches, and automated versioning.
 
-For details, see [RELEASES.md](./RELEASES.md).
+For details, see [Branch Strategy](#branch-strategy).
 
 ## Before You Start
 
@@ -73,11 +73,9 @@ For details, see [RELEASES.md](./RELEASES.md).
 ```mermaid
 flowchart LR
  feature["feature/*, fix/*, docs/*, refactor/*"] --> development
- development --> staging
- maintenance --> staging
- staging --> main
- main --> staging
- staging --> development
+ development --> main
+ maintenance --> main
+ main --> development
 ```
 
 This repository uses a linear, rebase-based branch model. Long-lived branches MUST stay connected to `main`, and merge commits MUST NOT be introduced.
@@ -87,8 +85,7 @@ This repository uses a linear, rebase-based branch model. Long-lived branches MU
 | Branch  | Purpose  | Release role | Write policy | Merge  |
 | --- | --- | --- | --- | --- |
 | `main`  | Stable source of truth | releases | Protected. Only receives reviewed PRs from `staging` or `maintenance`. | Rebase |
-| `staging` | Pre-release integration | pre-releases | Protected. Only receives reviewed PRs from `development`.  | Rebase |
-| `development` | Active development | none | Feature, fix, chore, and documentation PRs target this branch. | Squash |
+| `development` | Active development | pre-releases | Feature, fix, chore, and documentation PRs target this branch. | Squash |
 | `maintenance` | Dependency maintenance  | none | Maintainer-only branch for dependency version updates. | Rebase |
 
 ### Branch naming
