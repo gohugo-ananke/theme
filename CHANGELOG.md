@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.13.3](https://github.com/gohugo-ananke/ananke/compare/v2.13.2...v2.13.3) (2026-05-15)
+
+### Build
+
+* **fix:** proper release key attribution ([59b44f2](https://github.com/gohugo-ananke/ananke/commit/59b44f2d9d51d4b56be75a90409894c242a38ff2))
+
 ## [2.13.2](https://github.com/gohugo-ananke/ananke/compare/v2.13.1...v2.13.2) (2026-05-15)
 
 ### Build
