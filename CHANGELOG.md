@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.14.0](https://github.com/gohugo-ananke/ananke/compare/v2.13.3...v2.14.0) (2026-05-15)
+
+### Features
+
+* add simple icons and maintenance script ([f6fa927](https://github.com/gohugo-ananke/ananke/commit/f6fa927de83e1ec49be7e0656d6c6d932e230f5f))
+
+### Build
+
+* **fix:** remove improper cooldown config for GH actions ([079b757](https://github.com/gohugo-ananke/ananke/commit/079b757e38d6d6806e8661bf72f136cf57f0ccfe))
+* **fix:** smaller fixes to the release configuration ([0672476](https://github.com/gohugo-ananke/ananke/commit/067247654333afb79151a19b5e3b75b6908f40be))
+* **fix:** update release setup ([229588b](https://github.com/gohugo-ananke/ananke/commit/229588be6961d020af2f1e9557199bfb69a32ae7))
+
 ## [2.13.3](https://github.com/gohugo-ananke/ananke/compare/v2.13.2...v2.13.3) (2026-05-15)
 
 ### Build
