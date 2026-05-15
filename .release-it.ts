@@ -65,7 +65,7 @@ const config: Config = {
 		release: true,
 		releaseName: "v${version}",
 		skipChecks: true,
-		tokenRef: "GITHUB_TOKEN_CONTENT_PRIVATE",
+		tokenRef: "GITHUB_ANANKE_TOKEN_ADMIN_PRIVATE",
 	},
 	npm: {
 		publish: false,
