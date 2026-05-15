@@ -20,14 +20,14 @@ const config: Config = {
 		release: true,
 		releaseName: "v${version}",
 		skipChecks: true,
-		tokenRef: "GITHUB_ANANKE_TOKEN_ADMIN_PRIVATE",
+		tokenRef: "GITHUB_TOKEN",
 	},
 	npm: {
 		publish: false,
 	},
 	plugins: {
 		"@release-it/conventional-changelog": {
-			infile: "CHANGELOG.md",
+			infile: false,
 			preset: {
 				name: "conventionalcommits",
 				commitUrlFormat:
