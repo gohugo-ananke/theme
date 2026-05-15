@@ -4,6 +4,7 @@
 		"yzhang.markdown-all-in-one",
 		"davidanson.vscode-markdownlint",
 		"zizmor.zizmor-vscode",
-		"redhat.vscode-yaml"
+		"redhat.vscode-yaml",
+		"streetsidesoftware.code-spell-checker-cspell-bundled-dictionaries"
 	]
 }
