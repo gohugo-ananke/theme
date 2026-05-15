@@ -116,7 +116,7 @@ npm run release
 * Tagged as official release
 * Represents stable production state
 
-## Release Flow
+## Release Flow:
 
 Typical flow:
 
