@@ -1,4 +1,3 @@
-import { execSync } from "node:child_process";
 import type { Config } from "release-it";
 
 interface ConventionalCommitLike {
@@ -6,59 +5,15 @@ interface ConventionalCommitLike {
 	notes?: unknown[];
 }
 
-function getCurrentBranch(): string {
-	try {
-		return execSync("git rev-parse --abbrev-ref HEAD", {
-			encoding: "utf8",
-			stdio: ["ignore", "pipe", "pipe"],
-		}).trim();
-	} catch (error) {
-		console.error("Failed to determine the current Git branch.");
-		console.error(error);
-		process.exit(1);
-	}
-}
-
-function hasPreReleaseFlag(argv: string[]): boolean {
-	return argv.some((argument) => {
-		return (
-			argument === "--preRelease" ||
-			argument.startsWith("--preRelease=") ||
-			argument === "--preReleaseId" ||
-			argument.startsWith("--preReleaseId=")
-		);
-	});
-}
-
-const branch = getCurrentBranch();
-const isPreRelease = hasPreReleaseFlag(process.argv);
-
-if (isPreRelease && branch !== "development") {
-	console.error(
-		`Pre-releases are only allowed from "development". Current branch: "${branch}".`,
-	);
-	process.exit(1);
-}
-
-if (!isPreRelease && branch !== "main") {
-	console.error(
-		`Stable releases are only allowed from "main". Current branch: "${branch}".`,
-	);
-	process.exit(1);
-}
-
 const config: Config = {
 	git: {
+		requireBranch: "main",
 		requireCleanWorkingDir: true,
 		requireUpstream: true,
-		requireCommits: true,
-		requireBranch: branch,
-		commit: true,
-		commitMessage: "chore(release): v${version}",
-		commitArgs: ["--no-verify"],
+		commit: false,
 		tag: true,
-		tagName: "v${version}",
 		push: true,
+		tagName: "v${version}",
 		pushArgs: ["--follow-tags"],
 	},
 	github: {
