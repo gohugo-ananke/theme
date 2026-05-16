@@ -63,7 +63,13 @@ const config = {
 		pushArgs: ["--follow-tags"],
 	},
 	github: {
-		release: false,
+		release: true,
+		releaseName: "Release v${version}",
+		skipChecks: true,
+		tokenRef: "GITHUB_ANANKE_TOKEN_ADMIN_PRIVATE",
+		comments: {
+			submit: true,
+		},
 	},
 	plugins: {
 		"@release-it/conventional-changelog": {
