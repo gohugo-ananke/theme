@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.16.0](https://github.com/gohugo-ananke/ananke/compare/v2.15.0...v2.16.0) (2026-05-16)
+
+### Features
+
+* rework stylesheet pipeline ([f78134c](https://github.com/gohugo-ananke/ananke/commit/f78134c2724d6c12ebe183e3e592f469c2da806b))
+
+### Build
+
+* **deps:** update bundled Tachyons from 4.9.1 to 4.12.0 ([433ef8f](https://github.com/gohugo-ananke/ananke/commit/433ef8f9c3c941975dab935122445c22d837bb47))
+* **fix:** run test only on main branch push hook ([148aa95](https://github.com/gohugo-ananke/ananke/commit/148aa9512b269231196ee0cf30a950a62d54f881))
+* **fix:** update version numbers and fix release setup ([29f0f4d](https://github.com/gohugo-ananke/ananke/commit/29f0f4df0774f5c91ff25ed67b72c751919f6e8d))
+
 ## [2.14.0](https://github.com/gohugo-ananke/ananke/compare/v2.13.3...v2.14.0) (2026-05-15)
 
 ### Features
