@@ -1,9 +1,144 @@
-{{ with partials.IncludeCached "func/style/GetMainCSS.html" "style/GetMainCSS" }}
-<link rel="stylesheet" href="{{ .RelPermalink }}" >
-{{ end }}
+{{- $main_style := dict -}}
+{{- $assets_to_concat := collections.Slice -}}
 
-{{ range site.Params.custom_css }}
-  {{ with partials.IncludeCached "func/style/GetResource.html" . . }}{{ else }}
-    <link rel="stylesheet" href="{{ urls.RelURL (.) }}">
-  {{ end }}
+{{/* Custom CSS configuration with backwards-compatible deprecated fallback. */}}
+{{- $custom_css := collections.Slice -}}
+{{- $has_ananke_custom_css := false -}}
+
+{{- with site.Params.ananke -}}
+  {{- $has_ananke_custom_css = collections.IsSet . "custom_css" -}}
+  {{- if $has_ananke_custom_css -}}
+    {{- $custom_css = .custom_css | default collections.Slice -}}
+  {{- end -}}
+{{- end -}}
+
+{{- if not $has_ananke_custom_css -}}
+  {{- if collections.IsSet site.Params "custom_css" -}}
+    {{- fmt.Warnf "[ananke] %s" "Parameter site.Params.custom_css is deprecated. Use site.Params.ananke.custom_css instead." -}}
+    {{- $custom_css = site.Params.custom_css | default collections.Slice -}}
+  {{- end -}}
+{{- end -}}
+
+{{/* Tachyons Base Stylesheet */}}
+{{- with resources.Get "ananke/css/_tachyons.css" -}}
+  {{- $assets_to_concat = $assets_to_concat | collections.Append . -}}
+{{- end -}}
+
+{{/* Theme CSS files */}}
+{{- range collections.Slice "_code.css" "_hugo-internal-templates.css" "_social-icons.css" "_styles.css" -}}
+  {{- with partials.IncludeCached "AnankeGetResource.html" . . -}}
+    {{- $assets_to_concat = $assets_to_concat | collections.Append . -}}
+  {{- end -}}
+{{- end -}}
+
+{{/* Generated social network hover colours */}}
+{{- with site.Params.ananke.social -}}
+  {{- $config := . -}}
+  {{- $networks := $config.follow.networks | default collections.Slice -}}
+  {{- $setups := collections.Where $config.networks "slug" "in" $networks -}}
+
+  {{- with $setups -}}
+    {{- $socials_rules := collections.Slice -}}
+
+    {{- range $service := . -}}
+      {{- with $service.color -}}
+        {{- $rule := fmt.Printf ".ananke-socials a.%s:hover {\n  color: %s !important;\n}" $service.slug . -}}
+        {{- $socials_rules = $socials_rules | collections.Append $rule -}}
+      {{- end -}}
+    {{- end -}}
+
+    {{- with $socials_rules -}}
+      {{- $socials_css := collections.Delimit . "\n\n" | resources.FromString "ananke/css/generated_socials.css" -}}
+      {{- $assets_to_concat = $assets_to_concat | collections.Append $socials_css -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{/* Custom CSS files and CSS-generating partials */}}
+{{- with $custom_css -}}
+  {{- range . -}}
+    {{- $custom_css_entry := . -}}
+    {{- $custom_css_entry_ext := path.Ext $custom_css_entry -}}
+
+    {{- if compare.Eq $custom_css_entry_ext ".html" -}}
+      {{- $partial_template_path := fmt.Print "_partials/" $custom_css_entry -}}
+
+      {{- if templates.Exists $partial_template_path -}}
+        {{- $partial_css := partials.Include $custom_css_entry site -}}
+
+        {{- with $partial_css -}}
+          {{- $partial_css_resource_path := printf "ananke/css/generated/%s.css" (replace $custom_css_entry "/" "-") -}}
+          {{- $partial_css_resource := printf "%s" . | resources.FromString $partial_css_resource_path -}}
+          {{- $assets_to_concat = $assets_to_concat | collections.Append $partial_css_resource -}}
+        {{- else -}}
+          {{- fmt.Warnf "[ananke] %s" (fmt.Printf "Stylesheet partial %q returned an empty value and was skipped." $custom_css_entry) -}}
+        {{- end -}}
+      {{- else -}}
+        {{- fmt.Warnf "[ananke] %s" (fmt.Printf "Stylesheet partial %q was skipped because layouts/partials/%s does not exist." $custom_css_entry $custom_css_entry) -}}
+      {{- end -}}
+    {{- else -}}
+      {{- with partials.IncludeCached "AnankeGetResource.html" $custom_css_entry $custom_css_entry -}}
+        {{- $subtype := .MediaType.SubType -}}
+        {{- if in (collections.Slice "x-scss" "x-sass" "scss" "sass") $subtype -}}
+         {{- fmt.Warnf "[ananke] %s" (fmt.Printf "Stylesheet %q has type %q and was skipped. Sass/SCSS is no longer compiled by this template. Precompile it to CSS or replace it with a .css file." .Name $subtype) -}}
+        {{- else -}}
+          {{- $assets_to_concat = $assets_to_concat | collections.Append . -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{/* Build, optionally minify, and fingerprint the concatenated CSS bundle. */}}
+{{- with $assets_to_concat -}}
+  {{- $style := . | resources.Concat "ananke/css/main.css" -}}
+  {{- $build_options := dict
+    "minify" (cond hugo.IsDevelopment false true)
+    "sourceMap" (cond hugo.IsDevelopment "linked" "none")
+    "targetPath" "ananke/css/main.css"
+  -}}
+  {{- $style = $style | css.Build $build_options -}}
+
+  {{- if hugo.IsProduction -}}
+    {{- $style = $style | resources.Fingerprint -}}
+  {{- end -}}
+
+  {{- $main_style = $style -}}
+{{- end -}}
+
+{{- with $main_style -}}
+  <link rel="stylesheet" href="{{ .RelPermalink }}"{{ with .Data.Integrity }} integrity="{{ . }}" crossorigin="anonymous"{{ end }}>
+{{- end -}}
+
+{{/*
+  Fallback custom CSS links.
+
+  If an ananke.custom_css entry is not found in assets/ananke/css/, it is
+  assumed to be a static file or external URL and emitted as a separate
+  stylesheet link.
+
+  HTML entries are treated as CSS-generating partials and are never emitted as
+  fallback stylesheet links.
+*/}}
+{{- range $custom_css -}}
+  {{- $custom_css_entry := . -}}
+  {{- $custom_css_entry_ext := path.Ext $custom_css_entry -}}
+
+  {{- if compare.Eq $custom_css_entry_ext ".html" -}}
+    {{/* CSS-generating partials are handled above. */}}
+  {{- else -}}
+    {{- with partials.IncludeCached "AnankeGetResource.html" $custom_css_entry $custom_css_entry -}}
+      {{/* Already handled in the asset bundle above, or skipped if unsupported. */}}
+    {{- else -}}
+      <link rel="stylesheet" href="{{ urls.RelURL . }}">
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{ define "_partials/AnankeGetResource.html" }}
+  {{- $resource := false -}}
+  {{- with resources.Get (fmt.Print "ananke/css/" .) -}}
+    {{- $resource = . -}}
+  {{- end -}}
+  {{- return $resource -}}
 {{ end }}
