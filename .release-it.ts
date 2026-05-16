@@ -70,6 +70,7 @@ const config = {
 		comments: {
 			submit: true,
 		},
+		discussionCategoryName: "release-notes",
 	},
 	plugins: {
 		"@release-it/conventional-changelog": {
