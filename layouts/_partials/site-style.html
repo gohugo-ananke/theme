@@ -91,7 +91,7 @@
 
 {{/* Build, optionally minify, and fingerprint the concatenated CSS bundle. */}}
 {{- with $assets_to_concat -}}
-  {{- $style := . | resources.Concat "ananke/css/main.css" -}}
+  {{- $style := . | resources.Concat "ananke/css/theme.css" -}}
   {{- $build_options := dict
     "minify" (cond hugo.IsDevelopment false true)
     "sourceMap" (cond hugo.IsDevelopment "linked" "none")
