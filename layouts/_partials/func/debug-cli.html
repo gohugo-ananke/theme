@@ -47,13 +47,16 @@ verbosity = "warning" # debug, warning, error
 {{- else if compare.Eq $severity "error" -}}
   {{- $colourLevel = $colourError -}}
   {{- $severityLabel = "!ERR" -}}
+{{- else if compare.Eq $severity "debug" -}}
+  {{- $colourLevel = $colourComment -}}
+  {{- $severityLabel = "DEBG" -}}
 {{- end -}}
 
 {{- if collections.IsSet . "level" -}}
   {{- $level = (cast.ToInt .level) -}}
 {{- end -}}
 
-{{- if compare.Le $severity "error" -}}
+{{- if compare.Eq $severity "error" -}}
   {{- fmt.Errorf (fmt.Printf "%s%s%s/%s%s %s%s%s" $colourAnanke $namespace $colourComment $colourLevel $severityLabel $colourComment .message $colourReset) -}}
 {{- else -}}
   {{- fmt.Warnf (fmt.Printf "%s%s%s/%s%s %s%s%s" $colourAnanke $namespace $colourComment $colourLevel $severityLabel $colourComment .message $colourReset) -}}

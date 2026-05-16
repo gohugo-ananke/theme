@@ -79,3 +79,6 @@
     {{ block "footer" . }}{{ partials.IncludeCached "site-footer.html" . }}{{ end }}
   </body>
 </html>
+{{- with (templates.Defer (dict "key" "hooks-collector")) -}}
+  {{- partials.Include "func/hooks/collector-dump.html" . }}
+{{ end -}}
