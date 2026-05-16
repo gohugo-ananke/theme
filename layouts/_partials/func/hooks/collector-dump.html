@@ -1,0 +1,8 @@
+{{- $scratch := page.Scratch.Get "dnb.hooks" -}}
+{{- partials.Include "func/hooks/debug-cli.html" (collections.Dictionary "message" "Hooks Collector") -}}
+{{- partials.Include "func/hooks/debug-cli.html" (collections.Dictionary "message" (printf "%#v" $scratch)) -}}
+
+{{/*
+{{ partials.Include "func/hooks/collector-dump.html" . }} 
+@todo must use stored instead of stashed and must be post processed.
+*/}}

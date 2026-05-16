@@ -1,0 +1,70 @@
+{{- $context := collections.Dictionary -}}
+{{- $config := site.Params.ananke.hooks -}}
+{{- $colourHook := "\033[38;2;170;153;255m" -}}
+{{- $colourUnused := "\033[38;2;204;119;102m" -}}
+{{- $colourReset := "\033[0m" -}}
+
+{{- /* create context from extended or simple hook */ -}}
+{{- if reflect.IsMap . -}}
+  {{- /* extended use case with map */ -}}
+  {{- $context = collections.Merge $context . }}
+  {{- $context = collections.Merge $context (collections.Dictionary "type" "full") }}
+  {{ partials.Include "func/hooks/debug-cli.html" (collections.Dictionary "message" (fmt.Printf "%s>>> HOOK: %s%s" $colourHook $context.hook $colourReset)) }}
+  {{ partials.Include "func/hooks/debug-cli.html" (collections.Dictionary "message" "hook is extended") }}
+  {{- /* extended use case */ -}}
+  {{- $context = collections.Merge $context . }}
+  {{- $context = collections.Merge $context (collections.Dictionary "type" "full") }}
+{{- else -}}
+  {{ partials.Include "func/hooks/debug-cli.html" (collections.Dictionary "message" (fmt.Printf "%s>>> HOOK: %s%s" $colourHook $context $colourReset)) }}
+  {{ partials.Include "func/hooks/debug-cli.html" (collections.Dictionary "message" "hook is simple") }}
+  {{- /* simple use case */ -}}
+  {{- $context = collections.Merge
+                  $context
+                  (collections.Dictionary "hook" . "context" collections.Dictionary) -}}
+  {{- $context = collections.Merge $context (collections.Dictionary "type" "simple") }}
+{{- end -}}
+
+{{/**
+
+$context.hook = hook name
+$context.cache = whether to cache the hook (optional, default: false, if used this is used as cache indicator)
+$context.context = context of the hook (e.g. page, section, etc.)
+$context.type = type of the hook (e.g. full, simple)
+
+context is empty for simple hooks
+
+**/}}
+
+{{- /* add hook to collector */ -}}
+{{- partials.Include "func/hooks/collector.html" (collections.Dictionary
+    "hook" $context.hook
+    "context" $context
+) -}}
+
+{{- $loaded := false -}}
+{{- $partialName := fmt.Printf "hooks/%s.html" $context.hook -}}
+{{- $partialHook := fmt.Printf "_partials/%s" $partialName -}}
+{{ partials.Include "func/hooks/debug-cli.html" (collections.Dictionary "message" (fmt.Printf "partial Name: %s" $partialName)) }}
+{{- if templates.Exists $partialHook -}}
+  {{- if compare.Eq true (.cached | compare.Default false) -}}
+    {{- partials.IncludeCached $partialName $context.context -}}
+    {{ partials.Include "func/hooks/debug-cli.html" (collections.Dictionary "message" "included") }}
+    {{- $loaded = true -}}
+  {{- else -}}
+    {{- partials.Include $partialName $context.context -}}
+    {{ partials.Include "func/hooks/debug-cli.html" (collections.Dictionary "message" "included uncached") }}
+    {{- $loaded = true -}}
+  {{- end -}}
+{{- end -}}
+
+{{- if compare.Eq $loaded false -}}
+  {{- if not (collections.In $config.disable_messages "unused_hooks") -}} 
+    {{- partials.Include "func/hooks/debug-cli.html" (collections.Dictionary
+        "message" (fmt.Printf "%s<<< HOOK `%s` %sunused%s" $colourHook $context.hook $colourUnused $colourReset)
+        "context" .
+        "severity" "info"
+    ) -}} 
+  {{- end -}} 
+{{ else }}
+  {{ partials.Include "func/hooks/debug-cli.html" (collections.Dictionary "message" (fmt.Printf "%s<<< HOOK: %s done%s" $colourHook $context.hook $colourReset)) }}
+{{- end -}}

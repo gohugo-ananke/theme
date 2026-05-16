@@ -1,0 +1,6 @@
+{{ $scratch := page.Scratch.Get "ananke.hooks" }}
+{{ if eq $scratch "" }}
+  {{ $scratch = slice }}
+{{ end }}
+{{- page.Scratch.Add "ananke.hooks" (slice .hook) -}}
+

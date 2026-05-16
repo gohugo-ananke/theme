@@ -1,0 +1,60 @@
+{{- $config := site.Params.ananke.hooks -}}
+{{/* 
+
+$config.namespace
+$config.ignoreErrors
+$config.verbosity
+
+*/}}
+{{/*
+@todo add and document hook verbosity suppression setting via config
+
+[ananke.hooks]
+verbosity = "warning" # debug, warning, error
+
+@todo add and document hook ignoreErrors setting via config
+*/}}
+
+{{/*
+| Primary | `#AA99FF` | `170, 153, 255` |
+| Ananke  | `#FF80BF` | `255, 128, 191` |
+| Comment | `#708CA9` | `112, 140, 169` |
+| Error   | `#CC7766` | `204, 119, 102` |
+| Warning | `#CCCC66` | `204, 204, 102` |
+| Info    | `#6ECC66` | `110, 204, 102` |
+*/}}
+
+{{- $colourPrimary := "\033[38;2;170;153;255m" -}}
+{{- $colourAnanke := "\033[38;2;255;128;191m" -}}
+{{- $colourComment := "\033[38;2;112;140;169m" -}}
+{{- $colourError := "\033[38;2;204;119;102m" -}}
+{{- $colourWarning := "\033[38;2;204;204;102m" -}}
+{{- $colourInfo := "\033[38;2;110;204;102m" -}}
+{{- $colourReset := "\033[0m" -}}
+
+{{- if collections.In $config.ignoreErrors .slug -}}
+  {{- return -}}
+{{- end -}}
+
+{{- $namespace := $config.namespace | compare.Default "ananke" -}}
+{{- $severity := .severity | compare.Default "info" -}}
+{{- $colourLevel := $colourInfo -}}
+{{- $severityLabel := "INFO" -}}
+
+{{- if compare.Eq $severity "warning" -}}
+  {{- $colourLevel = $colourWarning -}}
+  {{- $severityLabel = "WARN" -}}
+{{- else if compare.Eq $severity "error" -}}
+  {{- $colourLevel = $colourError -}}
+  {{- $severityLabel = "!ERR" -}}
+{{- end -}}
+
+{{- if collections.IsSet . "level" -}}
+  {{- $level = (cast.ToInt .level) -}}
+{{- end -}}
+
+{{- if compare.Le $severity "error" -}}
+  {{- fmt.Errorf (fmt.Printf "%s%s%s/%s%s %s%s%s" $colourAnanke $namespace $colourComment $colourLevel $severityLabel $colourComment .message $colourReset) -}}
+{{- else -}}
+  {{- fmt.Warnf (fmt.Printf "%s%s%s/%s%s %s%s%s" $colourAnanke $namespace $colourComment $colourLevel $severityLabel $colourComment .message $colourReset) -}}
+{{- end -}}
