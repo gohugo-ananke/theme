@@ -5,6 +5,10 @@
 		"davidanson.vscode-markdownlint",
 		"zizmor.zizmor-vscode",
 		"redhat.vscode-yaml",
-		"streetsidesoftware.code-spell-checker-cspell-bundled-dictionaries"
+		"streetsidesoftware.code-spell-checker-cspell-bundled-dictionaries",
+		"budparr.language-hugo-vscode",
+		"casualjim.gotemplate",
+		"dunstontc.vscode-go-syntax",
+		"jinliming2.vscode-go-template"
 	]
 }
