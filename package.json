@@ -55,6 +55,7 @@
 		"lint:links": "lychee --config lychee.toml public",
 		"lint:markdown": "markdownlint-cli2",
 		"lint:markdown:fix": "markdownlint-cli2 --fix",
+		"lint:typescript": "tsc -p tsconfig.json --noEmit",
 		"prepare": "simple-git-hooks install",
 		"release": "release-it --config .release-it.ts",
 		"release:pre": "release-it --preRelease=prerelease --config .release-it.ts",

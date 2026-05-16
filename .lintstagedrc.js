@@ -22,7 +22,6 @@ export default {
 		// 'npm run lint:links',
 		"npm run lint:markdown:fix",
 	],
-	"**/*.ts?(x)": () => ["tsc -p tsconfig.json --noEmit"],
 	// 'layouts/**/*.*': [
 	//   './bin/hugo/refactor layouts'
 	// ],
