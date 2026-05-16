@@ -4,21 +4,18 @@ pre, .pre  {
   overflow:   scroll;
 }
 
-
-pre  code {
+pre code {
   display: block;
   padding: 1.5em 1.5em;
   white-space: pre;
-  font-size: .875rem;
+  font-size: .95rem;
   line-height: 2;
-
 }
 
 pre {
   background-color: #222;
   color: #ddd;
   white-space: pre;
-
   hyphens: none;
   position: relative;
 }
