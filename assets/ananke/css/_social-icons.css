@@ -11,11 +11,3 @@
 .ananke-socials a:hover {
   color: rgb(107, 114, 128);
 }
-.new-window {
-  opacity: 0;
-  display: inline-block;
-  vertical-align: top;
-}
-.link-transition:hover .new-window{
-  opacity: 1;
-}
