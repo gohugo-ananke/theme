@@ -1,0 +1,5 @@
+{{- $scratch := page.Store.Get "ananke.hooks" -}}
+{{- partials.Include "func/debug-cli.html" (collections.Dictionary "message" "Hooks Collector" "severity" "debug") -}}
+{{- range $index, $item := $scratch -}}
+    {{- partials.Include "func/debug-cli.html" (collections.Dictionary "message" (printf "%d: %#v" $index $item) "severity" "debug") -}}
+{{- end -}}

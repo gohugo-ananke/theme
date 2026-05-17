@@ -1,0 +1,5 @@
+{{/* "A hook is just a filter that outputs immediately!" he said and moved on with his life. */}}
+{{- partials.Include "filter.html" (collections.Dictionary
+    "__ananke_hook_input" .
+    "__ananke_hook_slug" "HOOK"
+) -}}

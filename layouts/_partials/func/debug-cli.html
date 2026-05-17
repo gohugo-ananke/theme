@@ -1,0 +1,87 @@
+{{- $config := site.Params.ananke.hooks | compare.Default (collections.Dictionary) -}}
+{{/* 
+
+$config.namespace
+$config.ignoreErrors
+$config.verbosity
+
+*/}}
+{{/*
+[ananke.hooks]
+verbosity = "warning" # debug, info, warning, error
+
+@todo add and document hook ignoreErrors setting via config
+*/}}
+
+{{/*
+| Primary | `#AA99FF` | `170, 153, 255` |
+| Ananke  | `#FF80BF` | `255, 128, 191` |
+| Comment | `#708CA9` | `112, 140, 169` |
+| Error   | `#CC7766` | `204, 119, 102` |
+| Warning | `#CCCC66` | `204, 204, 102` |
+| Info    | `#6ECC66` | `110, 204, 102` |
+*/}}
+
+{{- $colourPrimary := "\033[38;2;170;153;255m" -}}
+{{- $colourAnanke := "\033[38;2;255;128;191m" -}}
+{{- $colourComment := "\033[38;2;112;140;169m" -}}
+{{- $colourError := "\033[38;2;204;119;102m" -}}
+{{- $colourWarning := "\033[38;2;204;204;102m" -}}
+{{- $colourInfo := "\033[38;2;110;204;102m" -}}
+{{- $colourReset := "\033[0m" -}}
+
+{{- $namespace := $config.namespace | compare.Default "ananke" -}}
+{{- $severity := .severity | compare.Default "info" -}}
+{{- $severity = strings.ToLower $severity -}}
+{{- if or (compare.Eq $severity "warnings") (compare.Eq $severity "warn") -}}
+  {{- $severity = "warning" -}}
+{{- else if or (compare.Eq $severity "errors") (compare.Eq $severity "err") -}}
+  {{- $severity = "error" -}}
+{{- else if compare.Eq $severity "infos" -}}
+  {{- $severity = "info" -}}
+{{- end -}}
+
+{{- $verbosity := $config.verbosity | compare.Default "error" -}}
+{{- $verbosity = strings.ToLower $verbosity -}}
+{{- if or (compare.Eq $verbosity "warnings") (compare.Eq $verbosity "warn") -}}
+  {{- $verbosity = "warning" -}}
+{{- else if or (compare.Eq $verbosity "errors") (compare.Eq $verbosity "err") -}}
+  {{- $verbosity = "error" -}}
+{{- else if compare.Eq $verbosity "infos" -}}
+  {{- $verbosity = "info" -}}
+{{- else if not (or (compare.Eq $verbosity "debug") (compare.Eq $verbosity "info") (compare.Eq $verbosity "warning") (compare.Eq $verbosity "error")) -}}
+  {{- $verbosity = "error" -}}
+{{- end -}}
+
+{{- $shouldOutput := false -}}
+{{- if compare.Eq $verbosity "debug" -}}
+  {{- $shouldOutput = true -}}
+{{- else if and (compare.Eq $verbosity "info") (not (compare.Eq $severity "debug")) -}}
+  {{- $shouldOutput = true -}}
+{{- else if and (compare.Eq $verbosity "warning") (or (compare.Eq $severity "warning") (compare.Eq $severity "error")) -}}
+  {{- $shouldOutput = true -}}
+{{- else if and (compare.Eq $verbosity "error") (compare.Eq $severity "error") -}}
+  {{- $shouldOutput = true -}}
+{{- end -}}
+
+{{- $colourLevel := $colourInfo -}}
+{{- $severityLabel := "INFO" -}}
+
+{{- if compare.Eq $severity "warning" -}}
+  {{- $colourLevel = $colourWarning -}}
+  {{- $severityLabel = "WARN" -}}
+{{- else if compare.Eq $severity "error" -}}
+  {{- $colourLevel = $colourError -}}
+  {{- $severityLabel = "!ERR" -}}
+{{- else if compare.Eq $severity "debug" -}}
+  {{- $colourLevel = $colourComment -}}
+  {{- $severityLabel = "DEBG" -}}
+{{- end -}}
+
+{{- if $shouldOutput -}}
+  {{- if compare.Eq $severity "error" -}}
+    {{- fmt.Errorf (fmt.Printf "%s%s%s/%s%s %s%s%s" $colourAnanke $namespace $colourComment $colourLevel $severityLabel $colourComment .message $colourReset) -}}
+  {{- else -}}
+    {{- fmt.Warnf (fmt.Printf "%s%s%s/%s%s %s%s%s" $colourAnanke $namespace $colourComment $colourLevel $severityLabel $colourComment .message $colourReset) -}}
+  {{- end -}}
+{{- end -}}
