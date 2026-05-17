@@ -6,7 +6,7 @@
           {{/* Trimming the slash and adding absURL make sure the image works no matter collections.Where our site lives */}}
         <div class="{{ compare.Conditional (compare.Eq $.Site.Language.Direction "rtl") "pl3-ns" "pr3-ns" }} mb4 mb0-ns w-100 w-40-ns">
           <a href="{{.RelPermalink}}" class="db grow">
-            <img src="{{ $featured_image }}" class="img" alt="image from {{ .Title }}">
+            <img src="{{ $featured_image }}" class="img" alt="image from {{ .Title }}" width="600" height="400">
           </a>
         </div>
       {{ end }}
