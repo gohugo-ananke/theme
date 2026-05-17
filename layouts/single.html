@@ -18,7 +18,6 @@
   <article class="{{ $post_class }} flex-l {{ if $needs_aside }}mw8{{ else }}mw7{{ end }} center ph3 flex-wrap justify-between">
     <header class="mt4 w-100">
       {{- partials.Include "hook.html" ( dict "hook" "article/section-link"  "context" . ) -}}
-      {{- partials.Include "filter.html" ( dict "hook" "article/test"  "context" "Hello %s" ) -}}
       {{- partials.IncludeCached "social/share.html" . . -}}
       <h1 class="f1 athelas mt3 mb1">
         {{- .Title -}}

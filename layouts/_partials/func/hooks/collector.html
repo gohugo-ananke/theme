@@ -1,6 +1,1 @@
-{{ $scratch := page.Store.Get "ananke.hooks" }}
-{{ if eq $scratch "" }}
-  {{ $scratch = slice }}
-{{ end }}
 {{- page.Store.Add "ananke.hooks" (slice .hook) -}}
-

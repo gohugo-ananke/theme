@@ -257,4 +257,4 @@ profile = "https://www.youtube.com/@%s"
 icon = "youtube" # font awesome brand icon name
 
 [ananke.hooks]
-verbosity = "debug" # debug, info, warning, error
+verbosity = "error" # debug, info, warning, error

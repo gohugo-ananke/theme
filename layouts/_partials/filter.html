@@ -33,7 +33,7 @@
 {{- else -}}
   {{- $context = collections.Merge $context (collections.Dictionary
       "hook" $input
-      "context" collections.Dictionary
+      "context" (collections.Dictionary)
       "type" "simple"
   ) -}}
 

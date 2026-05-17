@@ -32,10 +32,6 @@ verbosity = "warning" # debug, warning, error
 {{- $colourInfo := "\033[38;2;110;204;102m" -}}
 {{- $colourReset := "\033[0m" -}}
 
-{{- if collections.In $config.ignoreErrors .slug -}}
-  {{- return -}}
-{{- end -}}
-
 {{- $namespace := $config.namespace | compare.Default "ananke" -}}
 {{- $severity := .severity | compare.Default "info" -}}
 {{- $colourLevel := $colourInfo -}}
@@ -50,10 +46,6 @@ verbosity = "warning" # debug, warning, error
 {{- else if compare.Eq $severity "debug" -}}
   {{- $colourLevel = $colourComment -}}
   {{- $severityLabel = "DEBG" -}}
-{{- end -}}
-
-{{- if collections.IsSet . "level" -}}
-  {{- $level = (cast.ToInt .level) -}}
 {{- end -}}
 
 {{- if compare.Eq $severity "error" -}}
