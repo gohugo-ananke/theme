@@ -24,6 +24,7 @@
 
   {{- partials.Include "func/debug-cli.html" (collections.Dictionary
       "message" (fmt.Printf "%s>>> %s: %s%s" $colourHook $hookSlug $context.hook $colourReset)
+      "severity" "info"
   ) -}}
 
   {{- partials.Include "func/debug-cli.html" (collections.Dictionary
@@ -39,6 +40,7 @@
 
   {{- partials.Include "func/debug-cli.html" (collections.Dictionary
       "message" (fmt.Printf "%s>>> %s: %s%s" $colourHook $hookSlug $context.hook $colourReset)
+      "severity" "info"
   ) -}}
 
   {{- partials.Include "func/debug-cli.html" (collections.Dictionary
@@ -106,6 +108,7 @@
 {{- else -}}
   {{- partials.Include "func/debug-cli.html" (collections.Dictionary
       "message" (fmt.Printf "%s<<< %s: %s done%s" $colourHook $hookSlug $context.hook $colourReset)
+      "severity" "info"
   ) -}}
 {{- end -}}
 
